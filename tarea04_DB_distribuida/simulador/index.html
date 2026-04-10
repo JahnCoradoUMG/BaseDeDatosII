@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MoveFast — Simulador de clúster</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#panel-acciones">Saltar al panel de acciones</a>
+
+    <header class="app-header">
+      <div class="app-header__inner">
+        <div>
+          <h1 class="app-title">MoveFast Lab</h1>
+          <p class="app-subtitle">
+            Simulador de caídas de nodos (primario / réplicas). Todo ocurre en tu
+            navegador: sin servidor ni API.
+          </p>
+        </div>
+        <button type="button" class="btn btn--ghost" id="btn-reset" aria-label="Reiniciar clúster al estado inicial">
+          Reiniciar escenario
+        </button>
+      </div>
+    </header>
+
+    <main class="main">
+      <section class="section" aria-labelledby="cluster-heading">
+        <div class="section__head">
+          <h2 id="cluster-heading">Clúster regional</h2>
+          <p class="hint">
+            Primario inicial: <strong>db-mx-1</strong> (México). Réplicas en Guatemala y EE.&nbsp;UU.
+          </p>
+        </div>
+        <div class="cluster" id="cluster-nodes" role="list"></div>
+      </section>
+
+      <section class="section section--actions" id="panel-acciones" aria-labelledby="actions-heading">
+        <h2 id="actions-heading" class="visually-hidden">Operaciones</h2>
+        <div class="actions-grid">
+          <div class="action-card">
+            <h3 class="action-card__title">Escritura</h3>
+            <p class="action-card__desc">Solo el primario <span class="badge">vivo</span> acepta escrituras.</p>
+            <div class="field-row">
+              <label class="visually-hidden" for="write-input">Dato a escribir</label>
+              <input
+                id="write-input"
+                type="text"
+                class="input"
+                placeholder="Ej. viaje-8842, tarifa-update…"
+                autocomplete="off"
+              />
+              <button type="button" class="btn btn--primary" id="btn-write">Escribir</button>
+            </div>
+          </div>
+          <div class="action-card">
+            <h3 class="action-card__title">Lecturas</h3>
+            <p class="action-card__desc">
+              <strong>Fuerte:</strong> solo primario. <strong>Desde réplica:</strong> modo tipo AP (dato posiblemente desfasado).
+            </p>
+            <div class="btn-group">
+              <button type="button" class="btn btn--secondary" id="btn-read-strong">Lectura fuerte</button>
+              <button type="button" class="btn btn--secondary" id="btn-read-stale">Lectura réplica (AP)</button>
+            </div>
+          </div>
+          <div class="action-card action-card--compact">
+            <h3 class="action-card__title">Caos controlado</h3>
+            <button type="button" class="btn btn--danger-outline" id="btn-random-fail">
+              Fallo aleatorio de nodo
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--log" aria-labelledby="log-heading">
+        <div class="section__head section__head--row">
+          <h2 id="log-heading">Registro de eventos</h2>
+          <button type="button" class="btn btn--ghost btn--small" id="btn-clear-log">Vaciar</button>
+        </div>
+        <div class="log" id="event-log" role="log" aria-live="polite" aria-relevant="additions"></div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <p>UMG · Bases de datos II · Escenario MoveFast (Uber-like)</p>
+    </footer>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>
